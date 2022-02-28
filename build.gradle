@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'org.csi'
+version '1.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'it.unimi.dsi:fastutil:8.5.6'
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    testImplementation 'com.github.Minestom:Minestom:-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
+}
