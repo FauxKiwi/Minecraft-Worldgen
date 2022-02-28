@@ -69,6 +69,10 @@ public class BlocksPopulator implements ChunkPopulator {
                     chunk.setBlock(cx, height, cz, Block.GRASS_BLOCK);
                 }
 
+                for (int y = height + 1; y <= 64; ++y) {
+                    chunk.setBlock(cx, y, cz, Block.WATER);
+                }
+
                 if (Biomes.isSnowy(biome)) {
                     if (Biomes.hasDeepSnow(biome)) {
                         chunk.setBlock(cx, height, cz, Block.SNOW_BLOCK);
@@ -78,13 +82,7 @@ public class BlocksPopulator implements ChunkPopulator {
                     } else {
                         chunk.setBlock(cx, 64, cz, Block.ICE);
                     }
-                }
-
-                for (int y = height + 1; y <= 64; ++y) {
-                    chunk.setBlock(cx, y, cz, Block.WATER);
-                }
-
-                if (height < 64 && Biomes.isFrozen(biome)) {
+                } else if (height < 64 && Biomes.isFrozen(biome)) {
                     chunk.setBlock(cx, 64, cz, Block.ICE);
                 }
             }
