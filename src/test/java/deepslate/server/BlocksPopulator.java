@@ -17,26 +17,76 @@ public class BlocksPopulator implements ChunkPopulator {
                 //int x = chunkX * Chunk.CHUNK_SIZE_X + cx, z = chunkZ * Chunk.CHUNK_SIZE_Z + cz;
 
                 int height = getHeight(chunk, cx, cz);
-                //var biome = getBiome(chunk, cx, cz);
+                var biome = getBiome(chunk, cx, cz);
 
-                boolean water = true;//biome.contains("ocean") || "river".equals(biome);
-
-                for (int y = -63; y <= height - 4; ++y) {
-                    chunk.setBlock(cx, y, cz, Block.STONE);
+                if (Biomes.isColdWater(biome)) {
+                    for (int y = -63; y <= height - 1; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.STONE);
+                    }
+                    chunk.setBlock(cx, height, cz, Block.GRAVEL);
+                } else if (Biomes.isWarmWater(biome)) {
+                    for (int y = -63; y <= height - 1; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.STONE);
+                    }
+                    chunk.setBlock(cx, height, cz, Block.SAND);
+                } else if (Biomes.isSandy(biome)) {
+                    for (int y = -63; y <= height - 6; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.STONE);
+                    }
+                    for (int y = height - 6; y <= height - 3; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.SANDSTONE);
+                    }
+                    for (int y = height - 3; y <= height; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.SAND);
+                    }
+                } else if (Biomes.isStony(biome)) {
+                    for (int y = -63; y <= height; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.STONE);
+                    }
+                } else if (Biomes.isBadlands(biome)) {
+                    if (height < 70) {
+                        for (int y = -63; y <= height - 3; ++y) {
+                            chunk.setBlock(cx, y, cz, Block.STONE);
+                        }
+                        for (int y = height - 3; y <= height; ++y) {
+                            chunk.setBlock(cx, y, cz, Block.RED_SAND);
+                        }
+                    } else {
+                        for (int y = -63; y <= 67; ++y) {
+                            chunk.setBlock(cx, y, cz, Block.STONE);
+                        }
+                        for (int y = 68; y <= height; ++y) {
+                            chunk.setBlock(cx, y, cz, Block.TERRACOTTA);
+                        }
+                    }
+                } else {
+                    for (int y = -63; y <= height - 4; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.STONE);
+                    }
+                    for (int y = height - 3; y <= height - 1; ++y) {
+                        chunk.setBlock(cx, y, cz, Block.DIRT);
+                    }
+                    chunk.setBlock(cx, height, cz, Block.GRASS_BLOCK);
                 }
-                if (height >= 3) { for (int y = height - 3; y <= height - 1; ++y) {
-                    chunk.setBlock(cx, y, cz, Block.DIRT);
-                }}
-                chunk.setBlock(cx, height, cz, Block.GRASS_BLOCK);
 
-                if (water) {
-                    for (int y = height + 1; y <= 64; ++y) {
-                        chunk.setBlock(cx, y, cz, Block.WATER);
+                if (Biomes.isSnowy(biome)) {
+                    if (Biomes.hasDeepSnow(biome)) {
+                        chunk.setBlock(cx, height, cz, Block.SNOW_BLOCK);
+                    }
+                    if (height >= 64) {
+                        chunk.setBlock(cx, height + 1, cz, Block.SNOW);
+                    } else {
+                        chunk.setBlock(cx, 64, cz, Block.ICE);
                     }
                 }
 
-                /*if ("grove".equals(biome))
-                    chunk.setBlock(cx, height + 1, cz, Block.SNOW);*/
+                for (int y = height + 1; y <= 64; ++y) {
+                    chunk.setBlock(cx, y, cz, Block.WATER);
+                }
+
+                if (height < 64 && Biomes.isFrozen(biome)) {
+                    chunk.setBlock(cx, 64, cz, Block.ICE);
+                }
             }
         }
     }
@@ -59,8 +109,8 @@ public class BlocksPopulator implements ChunkPopulator {
         return (int) height;
     }
 
-    /*@SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("ConstantConditions")
     private String getBiome(Chunk chunk, int cx, int cz) {
         return chunk.getBlock(cx, -64, cz).nbt().getString("biome");
-    }*/
+    }
 }

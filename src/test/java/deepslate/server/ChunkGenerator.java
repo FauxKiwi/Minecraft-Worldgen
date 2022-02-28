@@ -100,6 +100,6 @@ public class ChunkGenerator implements net.minestom.server.instance.ChunkGenerat
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-        }, new BlocksPopulator());
+        }, new BiomeGenerator(), new BlocksPopulator());
     }
 }

@@ -1,6 +1,5 @@
 package deepslate.server;
 
-import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.arguments.ArgumentEnum;
@@ -9,13 +8,12 @@ import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.player.PlayerLoginEvent;
-import net.minestom.server.utils.time.TimeUnit;
 
 public class Server {
     public static void main(String[] args) {
         var server = MinecraftServer.init();
 
-        //Biomes.registerBiomes();
+        Biomes.registerBiomes();
 
         var instance = MinecraftServer.getInstanceManager().createInstanceContainer();
         instance.setChunkGenerator(new ChunkGenerator());
